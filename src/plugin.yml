@@ -5,3 +5,5 @@ main: me.dominik.oneversusone.OneVersusOne
 commands:
   test:
     description:
+  arena:
+    description:

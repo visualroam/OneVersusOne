@@ -1,18 +1,29 @@
 package me.dominik.oneversusone;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
+import me.dominik.oneversusone.commands.ArenaCommand;
 import me.dominik.oneversusone.commands.TestCommand;
+import me.dominik.oneversusone.listener.block.BlockBreakAndPlaceListener;
 import me.dominik.oneversusone.listener.entity.EntityDamageListener;
 import me.dominik.oneversusone.listener.player.JoinAndQuitListener;
 import me.dominik.oneversusone.listener.player.MenuInteractEvent;
+import me.dominik.oneversusone.listener.player.PlayerInteractListener;
+import me.dominik.oneversusone.manager.ArenaManager;
+import me.dominik.oneversusone.utils.LocationTypeAdapter;
+import me.dominik.oneversusone.utils.MySQL;
 import me.dominik.oneversusone.utils.NPC;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,11 +35,21 @@ public class OneVersusOne extends JavaPlugin {
     @Getter private static OneVersusOne instance;
     @Getter private List<Player> playersIngame = new ArrayList<>();
     @Getter @Setter private NPC npc;
+    @Getter MySQL mySQL;
+    @Getter @Setter private Connection con;
+    public static Gson locationGson = new GsonBuilder().registerTypeAdapter(Location.class, new LocationTypeAdapter()).create();
+    @Getter HashMap<Player, HashMap<Integer, Location>> map = new HashMap<>();
+    @Getter ArenaManager manager;
 
     @Override
     public void onEnable() {
+
         initListener();
         initCommands();
+        initMySQLDatabase();
+
+        manager = new ArenaManager();
+
         super.onEnable();
     }
 
@@ -46,15 +67,32 @@ public class OneVersusOne extends JavaPlugin {
 
     public void initCommands(){
         this.getCommand("test").setExecutor(new TestCommand());
-
+        this.getCommand("arena").setExecutor(new ArenaCommand());
     }
+
 
     public void initListener(){
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new EntityDamageListener(), this);
         pm.registerEvents(new JoinAndQuitListener(), this);
+        pm.registerEvents(new PlayerInteractListener(), this);
+        pm.registerEvents(new BlockBreakAndPlaceListener(), this);
         pm.registerEvents(new MenuInteractEvent(), this);
     }
 
+    public void initMySQLDatabase(){
+        mySQL = new MySQL("localhost", "onevsone", "dome", "Qm8EMN8jrDxvSTUz");
+
+    }
+
+
 
 }
+
+
+/*
+
+Schauen was beim Marker nicht geht.
+Schaun ob Datenbank geht und beginnen die Warteschlange machen ;)
+
+ */
