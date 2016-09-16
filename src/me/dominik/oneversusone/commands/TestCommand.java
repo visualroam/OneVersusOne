@@ -1,11 +1,14 @@
 package me.dominik.oneversusone.commands;
 
-import me.dominik.oneversusone.NPC;
+import me.dominik.oneversusone.utils.NPC;
 import me.dominik.oneversusone.OneVersusOne;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Random;
 
 /**
  * Created by Dominik on 15.09.2016.
@@ -26,22 +29,19 @@ public class TestCommand implements CommandExecutor {
                         OneVersusOne.getInstance().getPlayersIngame().remove(player);
                         player.sendMessage(OneVersusOne.getPREFIX() + " Du wurdest vond der Liste entfernt.");
                     }
-                } else if(args[0].equals("NPC")){
+                } else if(args[0].equalsIgnoreCase("NPC")){
                     if(args[1].equalsIgnoreCase("spawn")){
-                        OneVersusOne.getInstance().setNpc(new NPC(player.getLocation()));
-                        try {
-                            OneVersusOne.getInstance().getNpc().spawn();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        player.sendMessage(OneVersusOne.getPREFIX() + " NPC erfolgreich gespawnt");
 
+                        NPC npc = new NPC("DerKev","OneVersusOne","",new Random().nextInt(10000), player.getLocation(),Material.AIR,true);
+                        OneVersusOne.getInstance().setNpc(npc);
+                        new Thread(new Runnable() { public void run() { npc.spawn(); } }).start();
                     } else if(args[1].equalsIgnoreCase("remove")){
                         try{
                             NPC npc = OneVersusOne.getInstance().getNpc();
-                            npc.destroy();
+                            npc.despawn();
+
                         } catch (Exception e){
-                            player.sendMessage("ujdsgfhvu");
+
                         }
                     }
                 }

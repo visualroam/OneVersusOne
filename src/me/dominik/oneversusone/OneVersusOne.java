@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import me.dominik.oneversusone.commands.TestCommand;
 import me.dominik.oneversusone.listener.entity.EntityDamageListener;
-import org.bukkit.BanEntry;
+import me.dominik.oneversusone.listener.player.JoinAndQuitListener;
+import me.dominik.oneversusone.listener.player.MenuInteractEvent;
+import me.dominik.oneversusone.utils.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -50,6 +52,8 @@ public class OneVersusOne extends JavaPlugin {
     public void initListener(){
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new EntityDamageListener(), this);
+        pm.registerEvents(new JoinAndQuitListener(), this);
+        pm.registerEvents(new MenuInteractEvent(), this);
     }
 
 
