@@ -1,0 +1,7 @@
+name: OneVersusOne
+version: 1.0
+author: Dome
+main: me.dominik.oneversusone.OneVersusOne
+commands:
+  test:
+    description:
