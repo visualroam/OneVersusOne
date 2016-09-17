@@ -23,9 +23,11 @@ public class ArenaCommand implements CommandExecutor {
             } else if(args[0].equalsIgnoreCase("save")){
                 try {
                     OneVersusOne.getInstance().getManager().saveArena(args[1],args[2],OneVersusOne.getInstance().getMap().get(player).get(1),OneVersusOne.getInstance().getMap().get(player).get(2));
+                    player.sendMessage("Arena wurde gespeichert unter, " + args[1] + "," + args[2]);
                 } catch (NullPointerException e){
                     player.sendMessage(OneVersusOne.getPREFIX() + " Einer der Beiden punkte wurde nicht gesetzt.");
                 }
+                return true;
             }
         }
         return false;

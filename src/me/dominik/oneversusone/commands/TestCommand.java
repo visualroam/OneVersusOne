@@ -53,6 +53,8 @@ public class TestCommand implements CommandExecutor {
                         Inventory inv = new MyInventory("&4TEST", 27).addItemAtAllSlots(new ItemStackBuilder(Material.STAINED_GLASS_PANE, (byte) 15).name("§3Background").amount(1).build()).build();
                         player.openInventory(inv);
                     }
+                } else if(args[0].equalsIgnoreCase("amount")){
+                    player.sendMessage(OneVersusOne.getPREFIX() + " " + OneVersusOne.getInstance().getManager().getAmountArenas());
                 }
             }
         } else {

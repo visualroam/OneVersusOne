@@ -12,6 +12,7 @@ import me.dominik.oneversusone.listener.player.JoinAndQuitListener;
 import me.dominik.oneversusone.listener.player.MenuInteractEvent;
 import me.dominik.oneversusone.listener.player.PlayerInteractListener;
 import me.dominik.oneversusone.manager.ArenaManager;
+import me.dominik.oneversusone.manager.PlayerDatabaseManager;
 import me.dominik.oneversusone.utils.LocationTypeAdapter;
 import me.dominik.oneversusone.utils.MySQL;
 import me.dominik.oneversusone.utils.NPC;
@@ -40,6 +41,7 @@ public class OneVersusOne extends JavaPlugin {
     public static Gson locationGson = new GsonBuilder().registerTypeAdapter(Location.class, new LocationTypeAdapter()).create();
     @Getter HashMap<Player, HashMap<Integer, Location>> map = new HashMap<>();
     @Getter ArenaManager manager;
+    @Getter PlayerDatabaseManager pdmanager;
 
     @Override
     public void onEnable() {
@@ -48,7 +50,9 @@ public class OneVersusOne extends JavaPlugin {
         initCommands();
         initMySQLDatabase();
 
+
         manager = new ArenaManager();
+        pdmanager = new PlayerDatabaseManager();
 
         super.onEnable();
     }
@@ -81,7 +85,7 @@ public class OneVersusOne extends JavaPlugin {
     }
 
     public void initMySQLDatabase(){
-        mySQL = new MySQL("localhost", "onevsone", "dome", "Qm8EMN8jrDxvSTUz");
+        mySQL = new MySQL("localhost", "onevsone", "dome", "MMNJcYwaC5NpHt3M");
 
     }
 

@@ -21,19 +21,20 @@ public class PlayerInteractListener implements Listener {
     public void onInteract(PlayerInteractEvent event){
         Player player = event.getPlayer();
 
+        HashMap<Player, HashMap<Integer, Location>> map = OneVersusOne.getInstance().getMap();
+
+
         try {
             if(ChatColor.stripColor(player.getItemInHand().getItemMeta().getDisplayName()).equalsIgnoreCase("MARKER")){
                 if(event.getAction() == Action.LEFT_CLICK_BLOCK){
-                    HashMap<Player, HashMap<Integer, Location>> map = OneVersusOne.getInstance().getMap();
                     Location loc = event.getClickedBlock().getLocation();
-                    HashMap<Integer, Location> map1 = new HashMap<>();
-                    map1.put(2, loc);
+                    HashMap<Integer,Location> map1 = map.containsKey(player) ? map.get(player):new HashMap<Integer, Location>();
+                    map1.put(1,loc);
                     map.put(player, map1);
                     player.sendMessage(OneVersusOne.getPREFIX() + " Point 1 set at " + loc.getX() + " " + loc.getY() + " " + loc.getZ());
                 } else if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
-                    HashMap<Player, HashMap<Integer, Location>> map = OneVersusOne.getInstance().getMap();
                     Location loc = event.getClickedBlock().getLocation();
-                    HashMap<Integer, Location> map1 = new HashMap<>();
+                    HashMap<Integer,Location> map1 = map.containsKey(player) ? map.get(player):new HashMap<Integer, Location>();
                     map1.put(2, loc);
                     map.put(player, map1);
                     player.sendMessage(OneVersusOne.getPREFIX() + " Point 2 set at " + loc.getX() + " " + loc.getY() + " " + loc.getZ());
