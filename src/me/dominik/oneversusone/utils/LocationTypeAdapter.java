@@ -12,7 +12,6 @@ import java.lang.reflect.Type;
  */
 public class LocationTypeAdapter implements JsonSerializer<Location>, JsonDeserializer<Location>{
 
-
     @Override
     public Location deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         JsonObject object = (JsonObject) json;

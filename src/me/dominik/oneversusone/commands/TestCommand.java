@@ -36,7 +36,7 @@ public class TestCommand implements CommandExecutor {
                 } else if(args[0].equalsIgnoreCase("NPC")){
                     if(args[1].equalsIgnoreCase("spawn")){
 
-                        NPC npc = new NPC("DerKev","OneVersusOne","",new Random().nextInt(10000), player.getLocation(),Material.AIR,true);
+                        NPC npc = new NPC("DerKev","§4One§6Versus§4One","",new Random().nextInt(10000), player.getLocation(),Material.AIR,true);
                         OneVersusOne.getInstance().setNpc(npc);
                         new Thread(new Runnable() { public void run() { npc.spawn(); } }).start();
                     } else if(args[1].equalsIgnoreCase("remove")){
@@ -47,6 +47,9 @@ public class TestCommand implements CommandExecutor {
                         } catch (Exception e){
 
                         }
+                    } else if(args[1].equalsIgnoreCase("real")){
+                        OneVersusOne.getInstance().getNpcManager().saveNPCLocation(player.getLocation());
+                        player.sendMessage("dijsiopf");
                     }
                 } else if(args[0].equalsIgnoreCase("inventory")){
                     if(args[1].equalsIgnoreCase("addAll")){
@@ -55,6 +58,8 @@ public class TestCommand implements CommandExecutor {
                     }
                 } else if(args[0].equalsIgnoreCase("amount")){
                     player.sendMessage(OneVersusOne.getPREFIX() + " " + OneVersusOne.getInstance().getManager().getAmountArenas());
+                }else if(args[0].equalsIgnoreCase("gson")){
+                    player.sendMessage(OneVersusOne.locationGson.toJson(player.getLocation()));
                 }
             }
         } else {

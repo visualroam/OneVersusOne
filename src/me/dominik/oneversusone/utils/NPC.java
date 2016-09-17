@@ -128,6 +128,30 @@ public class NPC {
         }
     }
     @SuppressWarnings("deprecation")
+    public void spawnOne(Player player) {
+        try{
+            PacketPlayOutNamedEntitySpawn packet = new PacketPlayOutNamedEntitySpawn();
+            addToTablist();
+            setValue(packet, "a", entityID);
+            setValue(packet, "b", this.profile.getId());
+            setValue(packet, "c", toFixedPoint(location.getX()));
+            setValue(packet, "d", toFixedPoint(location.getY()));
+            setValue(packet, "e", toFixedPoint(location.getZ()));
+            setValue(packet, "f", toPackedByte(location.getYaw()));
+            setValue(packet, "g", toPackedByte(location.getPitch()));
+            setValue(packet, "h", inHand == null ? 0 : inHand.getId());
+            setValue(packet, "i", watcher);
+
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+
+            npcs.put(entityID, this);
+            if (hideTablist) removeFromTablist();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("deprecation")
     public void despawn() {
         PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(this.entityID);
         this.removeFromTablist();
