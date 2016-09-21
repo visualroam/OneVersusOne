@@ -2,6 +2,7 @@ package me.dominik.oneversusone.listener.player;
 
 import me.dominik.oneversusone.OneVersusOne;
 import me.dominik.oneversusone.utils.NPC;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,9 +32,13 @@ public class JoinAndQuitListener implements Listener {
     }
 
     public void spawnNPC(Player player){
-        NPC npc = new NPC("_XD0M3_","OneVersusOne","",new Random().nextInt(10000), OneVersusOne.getInstance().getNpcManager().getNPCLocation(), Material.AIR,true);
-        OneVersusOne.getInstance().setNpc(npc);
-        new Thread(new Runnable() { public void run() { npc.spawnOne(player); } }).start();
+        new Thread(new Runnable() { public void run() { OneVersusOne.getInstance().getNpc().spawnOne(player); } }).start();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(OneVersusOne.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                OneVersusOne.getInstance().getNpc().removeFromTablist();
+            }
+        },40);
     }
 
 

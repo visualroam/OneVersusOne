@@ -1,6 +1,7 @@
 package me.dominik.oneversusone.manager;
 
 import com.google.gson.reflect.TypeToken;
+import me.dominik.oneversusone.Arena;
 import me.dominik.oneversusone.OneVersusOne;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -121,6 +122,29 @@ public class ArenaManager {
             e.printStackTrace();
         }
         return 0;
+    }
+
+
+
+    public Arena getArenaByID(int id){
+        ResultSet rs = OneVersusOne.getInstance().getMySQL().query("SELECT * FROM arenas WHERE ID= '" + id + "'");
+        try {
+            if(rs.next()){
+                Map<String, Location> map;
+                map = OneVersusOne.locationGson.fromJson(rs.getString("LOCATIONS"), STRING_LOCATION_MAP);
+                Location loc1 = map.get("punkt1");
+                Location loc2 = map.get("punkt2");
+                Location loc3 = map.get("spawn1");
+                Location loc4 = map.get("spawn2");
+                Location loc5 = map.get("specspawn");
+                String name = rs.getString("TITLE");
+                String author = rs.getString("AUTHOR");
+                return new Arena(loc3,loc4,loc5,loc1,loc2,name,author);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

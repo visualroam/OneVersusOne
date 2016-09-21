@@ -7,3 +7,5 @@ commands:
     description:
   arena:
     description:
+  queue:
+    description:

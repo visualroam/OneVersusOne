@@ -6,16 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 import me.dominik.oneversusone.commands.ArenaCommand;
 import me.dominik.oneversusone.commands.TestCommand;
+import me.dominik.oneversusone.commands.queueCommand;
 import me.dominik.oneversusone.listener.block.BlockBreakAndPlaceListener;
 import me.dominik.oneversusone.listener.entity.EntityDamageListener;
 import me.dominik.oneversusone.listener.inventory.InventoryClickListener;
-import me.dominik.oneversusone.listener.player.JoinAndQuitListener;
-import me.dominik.oneversusone.listener.player.MenuInteractEvent;
-import me.dominik.oneversusone.listener.player.PlayerInteractListener;
-import me.dominik.oneversusone.manager.ArenaManager;
-import me.dominik.oneversusone.manager.GameProfileManager;
-import me.dominik.oneversusone.manager.NPCManager;
-import me.dominik.oneversusone.manager.PlayerDatabaseManager;
+import me.dominik.oneversusone.listener.other.WeatherChangeListener;
+import me.dominik.oneversusone.listener.player.*;
+import me.dominik.oneversusone.manager.*;
 import me.dominik.oneversusone.utils.LocationTypeAdapter;
 import me.dominik.oneversusone.utils.MySQL;
 import me.dominik.oneversusone.utils.NPC;
@@ -50,6 +47,9 @@ public class OneVersusOne extends JavaPlugin {
     @Getter NPCManager npcManager;
     @Getter GameProfileManager profileManager;
     @Getter HashMap<String, GameProfile> UUID_GAMEPROFIL = new HashMap<>();
+    @Getter InventoryManager ivnManager = new InventoryManager();
+    @Getter QueueManager queueManager = new QueueManager();
+    @Getter @Setter HashMap<String, OneVsOneHandler> list = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -62,6 +62,8 @@ public class OneVersusOne extends JavaPlugin {
         pdmanager = new PlayerDatabaseManager();
         npcManager = new NPCManager();
         profileManager = new GameProfileManager();
+
+        this.npc = new NPC("_XD0M3_","DerKev","",new Random().nextInt(10000), OneVersusOne.getInstance().getNpcManager().getNPCLocation(), Material.AIR,false);
 
         super.onEnable();
     }
@@ -81,6 +83,7 @@ public class OneVersusOne extends JavaPlugin {
     public void initCommands(){
         this.getCommand("test").setExecutor(new TestCommand());
         this.getCommand("arena").setExecutor(new ArenaCommand());
+        this.getCommand("queue").setExecutor(new queueCommand());
     }
 
 
@@ -92,10 +95,14 @@ public class OneVersusOne extends JavaPlugin {
         pm.registerEvents(new BlockBreakAndPlaceListener(), this);
         pm.registerEvents(new MenuInteractEvent(), this);
         pm.registerEvents(new InventoryClickListener(), this);
+        pm.registerEvents(new FoodChangeListener(), this);
+        pm.registerEvents(new WeatherChangeListener(), this);
+        pm.registerEvents(new PlayerDropListener(), this);
+        pm.registerEvents(new PlayerDeathListener(), this);
     }
 
     public void initMySQLDatabase(){
-        mySQL = new MySQL("localhost", "onevsone", "dome", "MMNJcYwaC5NpHt3M");
+        mySQL = new MySQL("37.228.132.119", "loro", "loro", "aedexx7y5sjn");
 
     }
 

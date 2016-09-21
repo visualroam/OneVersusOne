@@ -15,15 +15,15 @@ import java.sql.SQLException;
 public class GameProfileManager {
 
     public GameProfileManager(){
-        OneVersusOne.getInstance().getMySQL().update("CREATE TABLE IF NOT EXISTS Gameprofile (UUID text,NAME text, ELO int,WINS int, LOSE int)");
+        OneVersusOne.getInstance().getMySQL().update("CREATE TABLE IF NOT EXISTS Gameprofile (UUID text, ELO int,WINS int, LOSE int)");
     }
 
-    public boolean profileExists(Player player){
-        String uuid = player.getUniqueId().toString();
+    public boolean profileExists(Player p){
+        String uuid = p.getUniqueId().toString();
         ResultSet rs = OneVersusOne.getInstance().getMySQL().query("SELECT * FROM Gameprofile WHERE UUID= '" + uuid + "'");
         try {
             if(rs.next()){
-                return rs.getString("UUID") != null;
+                return true;
             }
             return false;
         } catch (SQLException e) {
@@ -32,39 +32,14 @@ public class GameProfileManager {
         return false;
     }
 
-    public boolean profileExistsUUID(String uuid){
-        ResultSet rs = OneVersusOne.getInstance().getMySQL().query("SELECT * FROM Gameprofile WHERE UUID= '" + uuid + "'");
-        try {
-            if(rs.next()){
-                return rs.getString("UUID") != null;
-            }
-            return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
-    public boolean profileExistsNAME(String name){
-        ResultSet rs = OneVersusOne.getInstance().getMySQL().query("SELECT * FROM Gameprofile WHERE NAME= '" + name + "'");
-        try {
-            if(rs.next()){
-                return rs.getString("NAME") != null;
-            }
-            return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
     public GameProfile createProfile(Player player){
-        if(!(profileExists(player))){
-            OneVersusOne.getInstance().getMySQL().update("INSERT INTO Gameprofile(UUID, NAME, ELO, WINS, LOSE) VALUES ('" + player.getName() + "', '"+ player.getUniqueId().toString() + "', '1000', '0', '0');");
-        } else {
-            return new GameProfile(player.getUniqueId().toString(), player.getName(), getElo(player.getUniqueId().toString()),getWINS(player.getUniqueId().toString()),getLOSE(player.getUniqueId().toString()));
+        if(profileExists(player)){
+            return new GameProfile(player.getUniqueId().toString(), getElo(player.getUniqueId().toString()),getWINS(player.getUniqueId().toString()),getLOSE(player.getUniqueId().toString()));
         }
-        return new GameProfile(player.getUniqueId().toString(),player.getName(),1000,0,0);
+        OneVersusOne.getInstance().getMySQL().update("INSERT INTO Gameprofile(UUID, ELO, WINS, LOSE) VALUES ('"+ player.getUniqueId().toString() + "', '1000', '0', '0');");
+        return new GameProfile(player.getUniqueId().toString(),1000,0,0);
     }
 
     public int getElo(String UUID){

@@ -20,12 +20,18 @@ public class MyInventory {
         inventory = Bukkit.createInventory(null,this.inventorySize,this.inventoryName);
     }
 
+    public MyInventory(Inventory inv){
+        this.inventory = inv;
+        this.inventoryName = inv.getName();
+        this.inventorySize = inv.getSize();
+    }
+
     public Inventory build(){
         return inventory;
     }
 
     public MyInventory addItemAtAllSlots(ItemStack is){
-        for(int i = 0; i <= 26; i++){
+        for(int i = 0; i <= inventorySize - 1; i++){
             inventory.setItem(i,is);
         }
         return this;

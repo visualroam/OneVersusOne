@@ -13,15 +13,21 @@ public class EntityDamageListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e){
-        if(e.getEntity() instanceof Player){
-            if(OneVersusOne.getInstance().getPlayersIngame().contains((Player) e.getDamager())){
-                if(OneVersusOne.getInstance().getPlayersIngame().contains((Player) e.getEntity())){
-                    return;
+        try {
+            if(e.getEntity() instanceof Player){
+                if(OneVersusOne.getInstance().getPlayersIngame().contains((Player) e.getDamager())){
+                    if(OneVersusOne.getInstance().getPlayersIngame().contains((Player) e.getEntity())){
+                        return;
+                    }
+                    e.setCancelled(true);
+                } else {
+                    e.setCancelled(true);
                 }
+            } else {
                 e.setCancelled(true);
             }
-        } else {
-            e.setCancelled(true);
+        } catch (Exception es){
+
         }
     }
 

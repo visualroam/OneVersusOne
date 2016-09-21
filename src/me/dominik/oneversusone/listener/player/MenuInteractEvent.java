@@ -17,7 +17,7 @@ public class MenuInteractEvent implements Listener {
     public void onPlayerInteractNPC(NPC.PlayerInteractNPCEvent e) {
         NPC npc = e.getNpc();
         if(npc == OneVersusOne.getInstance().getNpc()){
-            e.getPlayer().openInventory(new MyInventory("test",27).addItemAtAllSlots(new ItemStackBuilder(Material.STAINED_GLASS_PANE, (byte) 15).amount(1).name("Nothing Here").build()).build());
+           OneVersusOne.getInstance().getIvnManager().openInventory(e.getPlayer());
         }
     }
 }

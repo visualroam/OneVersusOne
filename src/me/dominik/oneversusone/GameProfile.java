@@ -10,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor public class GameProfile{
 
     @Getter String UUID;
-    @Getter String NAME;
     @Getter @Setter Integer Elo;
     @Getter @Setter Integer Wins;
     @Getter @Setter Integer Lose;

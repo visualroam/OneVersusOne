@@ -194,7 +194,7 @@ public class NPC {
         }
     }
     @SuppressWarnings("deprecation")
-    private void removeFromTablist() {
+    public void removeFromTablist() {
         try{
             PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER);
             PacketPlayOutPlayerInfo.PlayerInfoData data = packet.new PlayerInfoData(this.profile, -1, null, null);
