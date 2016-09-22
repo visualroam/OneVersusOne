@@ -24,7 +24,13 @@ public class ArenaManager {
     private Type STRING_LOCATION_MAP = new TypeToken<Map<String, Location>>() { }.getType();
 
     public ArenaManager(){
-        OneVersusOne.getInstance().getMySQL().update("CREATE TABLE IF NOT EXISTS arenas (ID int,TITLE text, AUTHOR text, LOCATIONS text)");
+        OneVersusOne.getInstance().getMySQL().update("CREATE TABLE IF NOT arenas (\n" +
+                "  `ID` int(11) NOT NULL AUTO_INCREMENT,\n" +
+                "  `TITLE` text,\n" +
+                "  `AUTHOR` text,\n" +
+                "  `LOCATIONS` text,\n" +
+                "  PRIMARY KEY (`ID`)\n" +
+                ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1");
     }
 
     public void saveArena(String title, String author, Location loc1, Location loc2){

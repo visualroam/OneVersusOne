@@ -99,6 +99,7 @@ public class OneVersusOne extends JavaPlugin {
         pm.registerEvents(new WeatherChangeListener(), this);
         pm.registerEvents(new PlayerDropListener(), this);
         pm.registerEvents(new PlayerDeathListener(), this);
+        pm.registerEvents(new PlayerRespawnListener(), this);
     }
 
     public void initMySQLDatabase(){

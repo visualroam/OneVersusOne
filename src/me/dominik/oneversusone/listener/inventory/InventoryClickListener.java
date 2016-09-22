@@ -17,7 +17,7 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e){
-        if(e.getCurrentItem() == null){
+        if(e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getItemMeta().getDisplayName() == null || e.getCurrentItem() == null){
             return;
         }
         if(e.getInventory().getName().equalsIgnoreCase("§4Deine Stats")){

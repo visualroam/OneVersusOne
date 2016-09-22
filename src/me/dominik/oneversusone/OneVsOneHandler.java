@@ -2,9 +2,15 @@ package me.dominik.oneversusone;
 
 import me.dominik.oneversusone.utils.Countdown;
 import me.dominik.oneversusone.utils.CountdownEvent;
+import me.dominik.oneversusone.utils.ItemStackBuilder;
 import me.dominik.oneversusone.utils.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -51,6 +57,9 @@ public class OneVsOneHandler {
 
         player2.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 200, 200, true));
         player2.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 200, 200, true));
+
+        giveItems(player1);
+        giveItems(player2);
 
         waiting.startCountdown();
     }
@@ -119,8 +128,23 @@ public class OneVsOneHandler {
         OneVersusOne.getInstance().getPlayersIngame().remove(winner);
         OneVersusOne.getInstance().getPlayersIngame().remove(loser);
 
+        winner.getInventory().clear();
+        loser.getInventory().clear();
+
         winner.teleport(Bukkit.getWorld("world").getSpawnLocation());
         loser.teleport(Bukkit.getWorld("world").getSpawnLocation());
+    }
+
+    public void giveItems(Player player){
+        player.getInventory().clear();
+
+        PlayerInventory i = player.getInventory();
+
+        i.setItem(20, new ItemStackBuilder(Material.DIAMOND_SWORD).name("§4The Striker").lore("The Legendäre Striker,").lore("kämpfte schon mit").lore("mit diesem Schwert.").amount(1).build());
+        i.setItem(21, new ItemStackBuilder(Material.GOLDEN_APPLE, (byte) 1).amount(1).name("The Most OP Item").build());
+        i.setItem(22, new ItemStackBuilder(Material.BOW).amount(1).name("§4Amor's Bow").enchantment(Enchantment.ARROW_INFINITE, 1).build());
+        i.setItem(23, new ItemStackBuilder(Material.ARROW).amount(1).name("§Love Arrow").build());
+
     }
 
 

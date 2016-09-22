@@ -8,9 +8,11 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Random;
 
@@ -60,6 +62,20 @@ public class TestCommand implements CommandExecutor {
                     player.sendMessage(OneVersusOne.getPREFIX() + " " + OneVersusOne.getInstance().getManager().getAmountArenas());
                 }else if(args[0].equalsIgnoreCase("gson")){
                     player.sendMessage(OneVersusOne.locationGson.toJson(player.getLocation()));
+                } else if(args[0].equalsIgnoreCase("items")){
+                    player.getInventory().clear();
+
+                    PlayerInventory i = player.getInventory();
+
+                    i.setItem(0,new ItemStackBuilder(Material.DIAMOND_SWORD).name("§4§lThe Striker").lore("The Legendäre Striker,").lore("kämpfte schon mit").lore("mit diesem Schwert.").amount(1).build());
+                    i.setItem(1, new ItemStackBuilder(Material.GOLDEN_APPLE, (byte) 1).amount(1).name("§4§lThe Most OP Item").build());
+                    i.setItem(2, new ItemStackBuilder(Material.BOW).amount(1).name("§4§lAmor's Bow").enchantment(Enchantment.ARROW_INFINITE, 1).build());
+                    i.setItem(3, new ItemStackBuilder(Material.ARROW).amount(1).name("§4§lLove Arrow").build());
+
+                    i.setHelmet(new ItemStackBuilder(Material.DIAMOND_HELMET).build());
+                    i.setChestplate(new ItemStackBuilder(Material.DIAMOND_CHESTPLATE).build());
+                    i.setLeggings(new ItemStackBuilder(Material.DIAMOND_LEGGINGS).build());
+                    i.setBoots(new ItemStackBuilder(Material.DIAMOND_BOOTS).build());
                 }
             }
         } else {
